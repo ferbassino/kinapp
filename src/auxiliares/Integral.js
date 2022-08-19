@@ -1,5 +1,3 @@
-import React from "react";
-
 export const integral = (interval, array) => {
   let acc = 0;
 

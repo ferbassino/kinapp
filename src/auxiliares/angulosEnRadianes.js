@@ -1,6 +1,7 @@
-import React from 'react'
+import React from "react";
 
-const angulosEnRadianes = () => const anguloZRad = props.integral(0.0046728972, zData);
-  
+const angulosEnRadianes = () => {
+  return <div></div>;
+};
 
-export default angulosEnRadianes
+export default angulosEnRadianes;

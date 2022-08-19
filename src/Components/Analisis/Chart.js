@@ -68,14 +68,14 @@ const Chart = (props) => {
           backgroundColor: "rgba(43, 247, 2, 0.3)",
           pointRadius: 1,
         },
-        {
-          label: "Datos absolutos",
-          tension: 0.3,
-          data: props.absData,
-          borderColor: "rgba(3, 252, 248 )",
-          backgroundColor: "rgba(3, 252, 248 0.3)",
-          pointRadius: 1,
-        },
+        // {
+        //   label: "Datos absolutos",
+        //   tension: 0.3,
+        //   data: props.absData,
+        //   borderColor: "rgba(3, 252, 248 )",
+        //   backgroundColor: "rgba(3, 252, 248 0.3)",
+        //   pointRadius: 1,
+        // },
       ],
       labels,
     };
