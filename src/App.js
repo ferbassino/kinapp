@@ -1,12 +1,14 @@
+import React from "react";
+import Analisis from "./Components/Analisis";
 
-import './App.css';
+//import './App.css';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-     baskin
-    </div>
+    <>
+      <Analisis />
+    </>
   );
-}
+};
 
 export default App;
