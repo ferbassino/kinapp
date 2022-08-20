@@ -1,28 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Chart from "./Chart";
 import { integral } from "../../auxiliares/Integral";
 import { arrayIntegralAngulo } from "../../auxiliares/arrayIntegralAngulo";
-import { promedio } from "../../auxiliares/promedio";
+import Select from "react-select";
+import { detectorSentidosEjes } from "../../auxiliares/detectorSentidosEjes";
 
 const CargarCsv = () => {
   const [archivoCsv, setArchivoCsv] = useState("");
   const [visible, setVisible] = useState(false);
-  const [join, setJoin] = useState("");
-  const [side, setSide] = useState("");
-
-  const [selectObj, setSelectObj] = useState({
-    axial: false,
-    supDer: false,
-    supIzq: false,
-    infDer: false,
-    infIzq: false,
-  });
-  // const [axial, setAxial] = useState(false);
-  // const [supDer, setSupDer] = useState(false);
-  // const [supIzq, setSupIzq] = useState(false);
-  // const [infDer, setInfDer] = useState(false);
-  // const [infIzq, setInfIzq] = useState(false);
-
+  const [selected, setSelected] = useState("");
   //lectura del archivo csv
   const readFile = (e) => {
     let file = e.target.files[0];
@@ -78,31 +64,28 @@ const CargarCsv = () => {
     zCurva: arrayIntegralAngulo(1 / 214, dataObj.zData),
   };
 
-  //velocidad angular promedio
-  // const velAngProm = {
-  //   xVelProm: promedio(dataObj.xData).toFixed(2),
-  //   yVelProm: promedio(dataObj.yData).toFixed(2),
-  //   zVelProm: promedio(dataObj.zData).toFixed(2),
-  // };
-  // console.log(dataObj.zData);
+  const detectObj = detectorSentidosEjes(
+    curvaAngulos.xCurva,
+    curvaAngulos.yCurva,
+    curvaAngulos.zCurva,
+    selected
+  );
 
-  const selectDivition = (e) => {
-    if (e.target.value === "noEspecifico") {
-      console.log("no especifico");
-    } else if (e.target.value === "axial") {
-      setSelectObj({ ...selectObj, axial: true });
-    } else if (e.target.value === "supDer") {
-      setSelectObj({ ...selectObj, supDer: true });
-    } else if (e.target.value === "supIzq") {
-      setSelectObj({ ...selectObj, supIzq: true });
-    } else if (e.target.value === "infDer") {
-      setSelectObj({ ...selectObj, infDer: true });
-    } else if (e.target.value === "infIzq") {
-      setSelectObj({ ...selectObj, infIzq: true });
-    }
-  };
-  const selectJoin = (e) => {
-    setJoin(e.target.value);
+  const segments = [
+    { label: "No específica", value: "noEspecifica" },
+    { label: "Cervical", value: "cervical" },
+    { label: "Dorsolumbar", value: "dorsoLumbar" },
+    { label: "Sacro", value: "sacro" },
+    { label: "Brazo", value: "brazo" },
+    { label: "Antebrazo", value: "antebrazo" },
+    { label: "Mano", value: "mano" },
+    { label: "Muslo", value: "macro" },
+    { label: "Pierna", value: "pierna" },
+    { label: "Pie", value: "pie" },
+  ];
+
+  const handleSelectChange = (e) => {
+    setSelected(e.value);
   };
 
   return (
@@ -113,95 +96,12 @@ const CargarCsv = () => {
           <input type="file" id="inputGroupFile01" onChange={readFile}></input>
         </div>
 
-        {/* selectores de articulaciones */}
-        <div>
-          <h3>Seleccione parte corporal</h3>
-          <select onChange={selectDivition}>
-            <option value="noEspecifico">No específico</option>
-            <option value="axial">Axial</option>
-            <option value="supDer">Apendicular superior derecho</option>
-            <option value="supIzq">Apendicular superior izquierdo</option>
-            <option value="infDer">Apendicular inferior derecho</option>
-            <option value="infIzq">Apendicular inferior izquierdo</option>
-          </select>
-          <div>
-            {selectObj.axial && (
-              <div>
-                <h4>División axial, seleccione el segmento</h4>
-                <select
-                // onChange={selectAxialJoin}
-                >
-                  <option value="cervical">Cervical</option>
-                  <option value="dorsoLumbar">Dorsolumbar</option>
-                  <option value="dorsoLumbar">Dorsolumbar</option>
-                  <option value="sacro">Sacro</option>
-                </select>
-              </div>
-            )}
-          </div>
-          <div>
-            {" "}
-            {selectObj.supDer && (
-              <div>
-                <h4>Miembro superior derecho, seleccione un segmento</h4>
-                <select
-                // onChange={selectUpperJoin}
-                >
-                  <option value="munonDelHombro">Muñon del Hombro</option>
-                  <option value="brazo">Brazo</option>
-                  <option value="antebrazo">Antebrazo</option>
-                  <option value="mano">Mano</option>
-                </select>
-              </div>
-            )}
-          </div>
-          <div>
-            {" "}
-            {selectObj.supIzq && (
-              <div>
-                <h4>Miembro superior Izquierdo, seleccione un segmento</h4>
-                <select
-                // onChange={selectUpperJoin}
-                >
-                  <option value="munonDelHombro">Muñon del Hombro</option>
-                  <option value="brazo">Brazo</option>
-                  <option value="antebrazo">Antebrazo</option>
-                  <option value="mano">Mano</option>
-                </select>
-              </div>
-            )}
-          </div>
-          <div>
-            {selectObj.infDer && (
-              <div>
-                <h4>Miembro inferior derecho, seleccione un segmento</h4>
-                <select
-                // onChange={selectLowerJoin}
-                >
-                  <option value="muslo">muslo</option>
-                  <option value="pierna">Pierna</option>
-                  <option value="pie">Pie</option>
-                </select>
-              </div>
-            )}
-          </div>
-          <div>
-            {selectObj.infIzq && (
-              <div>
-                <h4>Miembro inferior Izquierdo, seleccione un segmento</h4>
-                <select
-                // onChange={selectLowerJoin}
-                >
-                  <option value="muslo">muslo</option>
-                  <option value="pierna">Pierna</option>
-                  <option value="pie">Pie</option>
-                </select>
-              </div>
-            )}
-          </div>
-        </div>
-
         <br />
+        {/* selector */}
+        <div>
+          <Select options={segments} onChange={handleSelectChange} />
+          <p>usted seleccionó: {selected}</p>
+        </div>
         <div>
           {/* formulario aca */}
           <form noValidate onSubmit={(e) => renderizado(e)}>
@@ -216,10 +116,11 @@ const CargarCsv = () => {
           {visible && (
             <div>
               <div>
-                <h2>Los ángulos segun los ejes fueron:</h2>
-                <h3>{dataAnguloGrad.xAngleGrad}° en x</h3>
-                <h3>{dataAnguloGrad.yAngleGrad}° en y</h3>
-                <h3>{dataAnguloGrad.zAngleGrad}° en z</h3>
+                <h3>Se realizó el movimiento de {detectObj.mainMovement}</h3>
+                <h4>Los ángulos segun los ejes fueron:</h4>
+                <p>{dataAnguloGrad.xAngleGrad}° en el eje x</p>
+                <p>{dataAnguloGrad.yAngleGrad}° en y</p>
+                <p>{dataAnguloGrad.zAngleGrad}° en z</p>
               </div>
               <div>
                 <h2>Gráfico del ángulo en función del tiempo</h2>
