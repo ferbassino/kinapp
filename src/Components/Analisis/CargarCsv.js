@@ -9,11 +9,19 @@ const CargarCsv = () => {
   const [visible, setVisible] = useState(false);
   const [join, setJoin] = useState("");
   const [side, setSide] = useState("");
-  const [axial, setAxial] = useState(false);
-  const [supDer, setSupDer] = useState(false);
-  const [supIzq, setSupIzq] = useState(false);
-  const [infDer, setInfDer] = useState(false);
-  const [infIzq, setInfIzq] = useState(false);
+
+  const [selectObj, setSelectObj] = useState({
+    axial: false,
+    supDer: false,
+    supIzq: false,
+    infDer: false,
+    infIzq: false,
+  });
+  // const [axial, setAxial] = useState(false);
+  // const [supDer, setSupDer] = useState(false);
+  // const [supIzq, setSupIzq] = useState(false);
+  // const [infDer, setInfDer] = useState(false);
+  // const [infIzq, setInfIzq] = useState(false);
 
   //lectura del archivo csv
   const readFile = (e) => {
@@ -82,24 +90,21 @@ const CargarCsv = () => {
     if (e.target.value === "noEspecifico") {
       console.log("no especifico");
     } else if (e.target.value === "axial") {
-      setAxial(true);
+      setSelectObj({ ...selectObj, axial: true });
     } else if (e.target.value === "supDer") {
-      setSupDer(true);
+      setSelectObj({ ...selectObj, supDer: true });
     } else if (e.target.value === "supIzq") {
-      setSupIzq(true);
+      setSelectObj({ ...selectObj, supIzq: true });
     } else if (e.target.value === "infDer") {
-      setInfDer(true);
+      setSelectObj({ ...selectObj, infDer: true });
     } else if (e.target.value === "infIzq") {
-      setInfIzq(true);
+      setSelectObj({ ...selectObj, infIzq: true });
     }
   };
   const selectJoin = (e) => {
     setJoin(e.target.value);
   };
 
-  const selectSide = (e) => {
-    setSide(e.target.value);
-  };
   return (
     <>
       <div>
@@ -120,7 +125,7 @@ const CargarCsv = () => {
             <option value="infIzq">Apendicular inferior izquierdo</option>
           </select>
           <div>
-            {axial && (
+            {selectObj.axial && (
               <div>
                 <h4>División axial, seleccione el segmento</h4>
                 <select
@@ -136,7 +141,7 @@ const CargarCsv = () => {
           </div>
           <div>
             {" "}
-            {supDer && (
+            {selectObj.supDer && (
               <div>
                 <h4>Miembro superior derecho, seleccione un segmento</h4>
                 <select
@@ -152,7 +157,7 @@ const CargarCsv = () => {
           </div>
           <div>
             {" "}
-            {supIzq && (
+            {selectObj.supIzq && (
               <div>
                 <h4>Miembro superior Izquierdo, seleccione un segmento</h4>
                 <select
@@ -167,7 +172,7 @@ const CargarCsv = () => {
             )}
           </div>
           <div>
-            {infDer && (
+            {selectObj.infDer && (
               <div>
                 <h4>Miembro inferior derecho, seleccione un segmento</h4>
                 <select
@@ -181,7 +186,7 @@ const CargarCsv = () => {
             )}
           </div>
           <div>
-            {infIzq && (
+            {selectObj.infIzq && (
               <div>
                 <h4>Miembro inferior Izquierdo, seleccione un segmento</h4>
                 <select
