@@ -9,6 +9,7 @@ export const detectorSentidosEjes = (xArr, yArr, zArr, selected) => {
   let xMovement, yMovement, zMovement;
   let mainAxis,
     mainMovement,
+    mainMovementValue,
     side,
     axisMovement,
     planeMovement,
@@ -18,9 +19,10 @@ export const detectorSentidosEjes = (xArr, yArr, zArr, selected) => {
     xGeneralPlane,
     yGeneralPlane,
     zGeneralPlane;
-  /*declaramos un obj que encuentra los valores maximos y minimos de 
+
+  /*---VALORES MAXIMOS Y MINIMOS DE CADA EJE---declaramos un obj que encuentra los valores maximos y minimos de 
   los arreglos de los angulos en funcion del tiempo, que vienen por parametros
-  desde la carga del csv*/
+  desde la carga del csv, obviamente siempre el mayor es el positivo*/
   const minMaxObj = {
     xMax: parseInt(Math.max.apply(null, xArr)),
     xMin: parseInt(Math.min.apply(null, xArr)),
@@ -30,8 +32,10 @@ export const detectorSentidosEjes = (xArr, yArr, zArr, selected) => {
     zMin: parseInt(Math.min.apply(null, zArr)),
   };
 
-  /*declaramos un condicional que establece las variables declaradas
-  arriba en 1 si el movimiento es positivo y 0 si es negativo*/
+  /*---VALOR MAXIMO DE CADA EJE SEGUN SU VALOR ABSOLUTO---declaramos un condicional que compara los valores absolutos
+  de los maximos y minimos de cada arreglo, si el valor mayor es 
+  el positivo, el movement de cada eje se establece en 1, sino en cero.
+  esto es fundamental para encontrar el movimiento principal*/
 
   if (Math.abs(minMaxObj.xMax) > Math.abs(minMaxObj.xMin)) {
     xMovement = 1;
@@ -49,7 +53,7 @@ export const detectorSentidosEjes = (xArr, yArr, zArr, selected) => {
     zMovement = 0;
   }
 
-  /*declaramos un condicional para encontrar el eje principal de movimiento
+  /*---EJE PRINCIPAL DE MOVIMIENTO--- declaramos un condicional para encontrar el eje principal de movimiento
   comparando los maximos positivos y negativos del mismo eje y de los ejes entre
   si, el mayor valor es el eje principal*/
 
@@ -76,46 +80,203 @@ export const detectorSentidosEjes = (xArr, yArr, zArr, selected) => {
     mainAxis = "z";
   }
 
-  /*sabiendo el eje pri principal y el sentido, y obviamente como 
+  /*MOVIMIENTO DEFINITIVO: sabiendo el eje principal y el sentido, y obviamente como 
   esta colocado el dispositivo, declaramos un condicional comparando
   estas variables y estableciendo el movimiento definitivo*/
 
-  if (mainAxis === "x" && xMovement === 0 && selected === "cervical") {
+  /*---COLUMNA CERVICAL--- Dispositivo: ubicacion parte posterior de la cabeza
+  y sentido "y" hacia cefálico */
+  /*---COLUMNA DORSOLUMBAR--- Dispositivo: línea media, parte posterior, por debajo de C7
+  y sentido "y" hacia cefálico */
+
+  if (
+    //si el eje principal es x
+    mainAxis === "x" &&
+    //y el sentido es negativo
+    xMovement === 0 &&
+    // y la seleccion es cervical o dorsolumbar:
+    (selected === "cervical" || selected === "dorsolumbar")
+  ) {
+    //entonces el movimiento principal es de flexion
     mainMovement = "flexión";
+    //el eje es laterolateral
     axisMovement = "laterolateral";
-    planeMovement = "medio";
-  } else if (mainAxis === "x" && xMovement === 1 && selected === "cervical") {
+    //el plano es sagital
+    planeMovement = "sagital";
+  } else if (
+    mainAxis === "x" &&
+    xMovement === 1 &&
+    (selected === "cervical" || selected === "dorsolumbar")
+  ) {
     mainMovement = "extensión";
     axisMovement = "laterolateral";
-    planeMovement = "medio";
-  } else if (mainAxis === "y" && yMovement === 0 && selected === "cervical") {
+    planeMovement = "sagital";
+  } else if (
+    mainAxis === "y" &&
+    yMovement === 0 &&
+    (selected === "cervical" || selected === "dorsolumbar")
+  ) {
     mainMovement = "rotación";
     side = "derecha";
     axisMovement = "céfalocaudal";
     planeMovement = "transversal";
-  } else if (mainAxis === "y" && yMovement === 1 && selected === "cervical") {
+  } else if (
+    mainAxis === "y" &&
+    yMovement === 1 &&
+    (selected === "cervical" || selected === "dorsolumbar")
+  ) {
     mainMovement = "rotación";
     side = "izquierda";
     axisMovement = "céfalocaudal";
     planeMovement = "transversal";
-  } else if (mainAxis === "z" && zMovement === 0 && selected === "cervical") {
+  } else if (
+    mainAxis === "z" &&
+    zMovement === 0 &&
+    (selected === "cervical" || selected === "dorsolumbar")
+  ) {
     mainMovement = "inclinación";
     side = "derecha";
     axisMovement = "anteroposterior";
     planeMovement = "frontal";
-  } else if (mainAxis === "z" && zMovement === 1 && selected === "cervical") {
+  } else if (
+    mainAxis === "z" &&
+    zMovement === 1 &&
+    (selected === "cervical" || selected === "dorsolumbar")
+  ) {
     mainMovement = "inclinación";
     side = "izquierda";
     axisMovement = "anteroposterior";
     planeMovement = "frontal";
   }
 
+  /*---BRAZO Derecho--- Dispositivo: parte lateral media del brazo
+  y sentido "y" hacia cefálico */
+  if (mainAxis === "x" && xMovement === 0 && selected === "brazo derecho") {
+    mainMovement = "abducción";
+    axisMovement = "anteroposterior";
+    planeMovement = "frontal";
+  } else if (
+    mainAxis === "x" &&
+    xMovement === 1 &&
+    selected === "brazo derecho"
+  ) {
+    mainMovement = "aducción";
+    axisMovement = "anteroposterior";
+    planeMovement = "frontal";
+  } else if (
+    mainAxis === "y" &&
+    yMovement === 0 &&
+    selected === "brazo derecho"
+  ) {
+    mainMovement = "rotación externa";
+
+    axisMovement = "céfalocaudal";
+    planeMovement = "transversal";
+  } else if (
+    mainAxis === "y" &&
+    yMovement === 1 &&
+    selected === "brazo derecho"
+  ) {
+    mainMovement = "rotación interna";
+
+    axisMovement = "céfalocaudal";
+    planeMovement = "transversal";
+  } else if (
+    mainAxis === "z" &&
+    zMovement === 0 &&
+    selected === "brazo derecho"
+  ) {
+    mainMovement = "extensión";
+    // side = "";
+    axisMovement = "laterolateral";
+    planeMovement = "sagital";
+  } else if (
+    mainAxis === "z" &&
+    zMovement === 1 &&
+    selected === "brazo derecho"
+  ) {
+    mainMovement = "flexión";
+    // side = "";
+    axisMovement = "laterolateral";
+    planeMovement = "sagital";
+  }
+
+  /*---BRAZO izquierdo--- Dispositivo: parte lateral media del brazo
+  y sentido "y" hacia cefálico */
+  if (mainAxis === "x" && xMovement === 0 && selected === "brazo izquierdo") {
+    mainMovement = "abducción";
+    axisMovement = "anteroposterior";
+    planeMovement = "frontal";
+  } else if (
+    mainAxis === "x" &&
+    xMovement === 1 &&
+    selected === "brazo izquierdo"
+  ) {
+    mainMovement = "aducción";
+    axisMovement = "anteroposterior";
+    planeMovement = "frontal";
+  } else if (
+    mainAxis === "y" &&
+    yMovement === 0 &&
+    selected === "brazo derecho"
+  ) {
+    mainMovement = "rotación interna";
+
+    axisMovement = "céfalocaudal";
+    planeMovement = "transversal";
+  } else if (
+    mainAxis === "y" &&
+    yMovement === 1 &&
+    selected === "brazo derecho"
+  ) {
+    mainMovement = "rotación externa";
+
+    axisMovement = "céfalocaudal";
+    planeMovement = "transversal";
+  } else if (
+    mainAxis === "z" &&
+    zMovement === 0 &&
+    selected === "brazo izquierdo"
+  ) {
+    mainMovement = "flexión";
+    // side = "";
+    axisMovement = "laterolateral";
+    planeMovement = "sagital";
+  } else if (
+    mainAxis === "z" &&
+    zMovement === 1 &&
+    selected === "brazo izquierdo"
+  ) {
+    mainMovement = "extensión";
+    // side = "";
+    axisMovement = "laterolateral";
+    planeMovement = "sagital";
+  }
   /*declaramos un condicional para los planos y los ejes 
   segun el movimiento independiente de cual es el principal*/
 
-  if (selected === "cervical" || selected === "Dorsolumbar") {
+  if (selected === "cervical" || selected === "dorsolumbar") {
     xGeneralAxis = "laterolateral";
     yGeneralAxis = "cefalocaudal";
+    zGeneralAxis = "anteroposterior";
+    xGeneralPlane = "sagital";
+    yGeneralPlane = "transversal";
+    zGeneralPlane = "frontal";
+  }
+  //brazo derecho ubicacion lateral del dispositivo
+  if (selected === "brazo derecho" || selected === "brazo izquierdo") {
+    xGeneralAxis = "anteroposterior";
+    yGeneralAxis = "longitudinal";
+    zGeneralAxis = "laterolateral";
+    xGeneralPlane = "frontal";
+    yGeneralPlane = "transversal";
+    zGeneralPlane = "sagital";
+  }
+
+  //brazo izquierdo ubicación anterior del dispositivo
+  if (selected === "brazo" && mainAxis === "x") {
+    xGeneralAxis = "laterolateral";
+    yGeneralAxis = "longitudinal";
     zGeneralAxis = "anteroposterior";
     xGeneralPlane = "sagital";
     yGeneralPlane = "transversal";
@@ -127,6 +288,7 @@ export const detectorSentidosEjes = (xArr, yArr, zArr, selected) => {
     side,
     axisMovement,
     planeMovement,
+    mainMovementValue,
     xGeneralAxis,
     yGeneralAxis,
     zGeneralAxis,

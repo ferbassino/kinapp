@@ -6,12 +6,14 @@ import Select from "react-select";
 import { detectorSentidosEjes } from "../../auxiliares/detectorSentidosEjes";
 import { references } from "../../auxiliares/references";
 
+/*IMPORTANTE: EN LOS MIEMBROS, LA UBICACION DEL DISPOSITIVO
+ ES LATERAL A LA DERECHA Y ANTERIOR A LA IZQUIERDA, 
+ SIEMPRE CON EL EJE Y POSITIVO PROXIMAL*/
 const CargarCsv = () => {
   const [archivoCsv, setArchivoCsv] = useState("");
   const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState("");
-  const [reference, setReference] = useState();
-
+  let mainMovementValue;
   //lectura del archivo csv
   const readFile = (e) => {
     let file = e.target.files[0];
@@ -60,12 +62,34 @@ const CargarCsv = () => {
     zAngleGrad: parseInt((dataAnguloRad.zAngleRad * 180) / Math.PI),
   };
 
+  /*declaramos un condicional para imprimir el algulo del eje principal de 
+  movimiento en valor absoluto */
+  if (
+    Math.abs(dataAnguloGrad.xAngleGrad) > Math.abs(dataAnguloGrad.yAngleGrad) &&
+    Math.abs(dataAnguloGrad.xAngleGrad) > Math.abs(dataAnguloGrad.zAngleGrad)
+  ) {
+    mainMovementValue = Math.abs(dataAnguloGrad.xAngleGrad);
+  } else if (
+    Math.abs(dataAnguloGrad.yAngleGrad) > Math.abs(dataAnguloGrad.xAngleGrad) &&
+    Math.abs(dataAnguloGrad.yAngleGrad) > Math.abs(dataAnguloGrad.zAngleGrad)
+  ) {
+    mainMovementValue = Math.abs(dataAnguloGrad.yAngleGrad);
+  } else if (
+    Math.abs(dataAnguloGrad.zAngleGrad) > Math.abs(dataAnguloGrad.xAngleGrad) &&
+    Math.abs(dataAnguloGrad.zAngleGrad) > Math.abs(dataAnguloGrad.yAngleGrad)
+  ) {
+    mainMovementValue = Math.abs(dataAnguloGrad.zAngleGrad);
+  }
+
   //array con el angulo en funcion del tiempo, llamamos a arrayIntegral
   const curvaAngulos = {
     xCurva: arrayIntegralAngulo(1 / 214, dataObj.xData),
     yCurva: arrayIntegralAngulo(1 / 214, dataObj.yData),
     zCurva: arrayIntegralAngulo(1 / 214, dataObj.zData),
   };
+
+  /*llamamos a la funcion detectorsentidosejes para obtener el movimiento 
+  exacto segun el el archivo cargado y el selector*/
 
   const detectObj = detectorSentidosEjes(
     curvaAngulos.xCurva,
@@ -74,22 +98,35 @@ const CargarCsv = () => {
     selected
   );
 
+  //selector
   const segments = [
     { label: "No específica", value: "noEspecifica" },
     { label: "Cervical", value: "cervical" },
-    { label: "Dorsolumbar", value: "dorsoLumbar" },
-    { label: "Sacro", value: "sacro" },
-    { label: "Brazo", value: "brazo" },
-    { label: "Antebrazo", value: "antebrazo" },
-    { label: "Mano", value: "mano" },
-    { label: "Muslo", value: "macro" },
-    { label: "Pierna", value: "pierna" },
-    { label: "Pie", value: "pie" },
+    { label: "Dorsolumbar", value: "dorsolumbar" },
+
+    { label: "Brazo derecho", value: "brazo derecho" },
+    { label: "Brazo izquierdo", value: "brazo izquierdo" },
+    { label: "Antebrazo derecho", value: "antebrazoD" },
+    { label: "Antebrazo izquierdo", value: "antebrazoI" },
+    { label: "Mano derecha", value: "manoD" },
+    { label: "Mano izquierda", value: "manoI" },
+    { label: "Muslo derecho", value: "musloD" },
+    { label: "Muslo izqierdo", value: "musloI" },
+    { label: "Pierna derecha", value: "piernaD" },
+    { label: "Pierna izquierda", value: "piernaI" },
+    { label: "Pie derecho", value: "pieD" },
+    { label: "Pie izquierdo", value: "pieI" },
   ];
 
+  //funcion que captura el select
   const handleSelectChange = (e) => {
     setSelected(e.value);
   };
+
+  /*constante que guarda el return de la funcion con los
+  angulos de referencia, se le dan dos parametros, el select que 
+  seria el segmento donde esta el dispositivo, y el movimiento principal
+  que viene de la funcion detectora*/
 
   const ref = references(selected, detectObj.mainMovement);
 
@@ -122,9 +159,10 @@ const CargarCsv = () => {
             <div>
               <div>
                 <h3>
-                  Se realizó el movimiento de {detectObj.mainMovement}{" "}
+                  Se realizó el movimiento de {detectObj.mainMovement} de{" "}
                   {selected} {detectObj.side}, plano {detectObj.planeMovement},{" "}
-                  eje {detectObj.axisMovement}
+                  eje {detectObj.axisMovement} con un ángulo de{" "}
+                  {mainMovementValue}°
                 </h3>
                 <h3>
                   El angulo de referencia para este movimiento es de {ref}°
