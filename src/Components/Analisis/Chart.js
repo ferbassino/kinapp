@@ -45,7 +45,7 @@ const Chart = (props) => {
     return {
       datasets: [
         {
-          label: "Datos en x",
+          label: `Plano: ${props.xPlane}, Eje: ${props.xAxis}`,
           tension: 0.3,
           data: props.xData,
           borderColor: "blue",
@@ -53,7 +53,7 @@ const Chart = (props) => {
           pointRadius: 1,
         },
         {
-          label: "Datos en y",
+          label: `Plano: ${props.yPlane}, Eje: ${props.yAxis}`,
           tension: 0.3,
           data: props.yData,
           borderColor: "red",
@@ -61,7 +61,7 @@ const Chart = (props) => {
           pointRadius: 1,
         },
         {
-          label: "Datos en z",
+          label: `Plano: ${props.zPlane}, Eje: ${props.zAxis}`,
           tension: 0.3,
           data: props.zData,
           borderColor: "green",

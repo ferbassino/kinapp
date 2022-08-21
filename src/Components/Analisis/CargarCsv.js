@@ -4,11 +4,14 @@ import { integral } from "../../auxiliares/Integral";
 import { arrayIntegralAngulo } from "../../auxiliares/arrayIntegralAngulo";
 import Select from "react-select";
 import { detectorSentidosEjes } from "../../auxiliares/detectorSentidosEjes";
+import { references } from "../../auxiliares/references";
 
 const CargarCsv = () => {
   const [archivoCsv, setArchivoCsv] = useState("");
   const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState("");
+  const [reference, setReference] = useState();
+
   //lectura del archivo csv
   const readFile = (e) => {
     let file = e.target.files[0];
@@ -88,6 +91,8 @@ const CargarCsv = () => {
     setSelected(e.value);
   };
 
+  const ref = references(selected, detectObj.mainMovement);
+
   return (
     <>
       <div>
@@ -116,11 +121,27 @@ const CargarCsv = () => {
           {visible && (
             <div>
               <div>
-                <h3>Se realizó el movimiento de {detectObj.mainMovement}</h3>
+                <h3>
+                  Se realizó el movimiento de {detectObj.mainMovement}{" "}
+                  {selected} {detectObj.side}, plano {detectObj.planeMovement},{" "}
+                  eje {detectObj.axisMovement}
+                </h3>
+                <h3>
+                  El angulo de referencia para este movimiento es de {ref}°
+                </h3>
                 <h4>Los ángulos segun los ejes fueron:</h4>
-                <p>{dataAnguloGrad.xAngleGrad}° en el eje x</p>
-                <p>{dataAnguloGrad.yAngleGrad}° en y</p>
-                <p>{dataAnguloGrad.zAngleGrad}° en z</p>
+                <p>
+                  Plano {detectObj.xGeneralPlane}, eje {detectObj.xGeneralAxis}:{" "}
+                  {Math.abs(dataAnguloGrad.xAngleGrad)}°
+                </p>
+                <p>
+                  Plano {detectObj.yGeneralPlane}, eje {detectObj.yGeneralAxis}:{" "}
+                  {Math.abs(dataAnguloGrad.yAngleGrad)}°
+                </p>
+                <p>
+                  Plano {detectObj.zGeneralPlane}, eje {detectObj.zGeneralAxis}:{" "}
+                  {Math.abs(dataAnguloGrad.zAngleGrad)}°
+                </p>
               </div>
               <div>
                 <h2>Gráfico del ángulo en función del tiempo</h2>
@@ -129,6 +150,12 @@ const CargarCsv = () => {
                   xData={curvaAngulos.xCurva}
                   yData={curvaAngulos.yCurva}
                   zData={curvaAngulos.zCurva}
+                  xAxis={detectObj.xGeneralAxis}
+                  yAxis={detectObj.yGeneralAxis}
+                  zAxis={detectObj.zGeneralAxis}
+                  xPlane={detectObj.xGeneralPlane}
+                  yPlane={detectObj.yGeneralPlane}
+                  zPlane={detectObj.zGeneralPlane}
                 />
               </div>
               <div>
@@ -139,6 +166,12 @@ const CargarCsv = () => {
                   xData={dataObj.xData}
                   yData={dataObj.yData}
                   zData={dataObj.zData}
+                  xAxis={detectObj.xGeneralAxis}
+                  yAxis={detectObj.yGeneralAxis}
+                  zAxis={detectObj.zGeneralAxis}
+                  xPlane={detectObj.xGeneralPlane}
+                  yPlane={detectObj.yGeneralPlane}
+                  zPlane={detectObj.zGeneralPlane}
                 />
               </div>
             </div>

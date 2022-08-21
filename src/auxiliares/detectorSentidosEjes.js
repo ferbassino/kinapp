@@ -1,8 +1,23 @@
 export const detectorSentidosEjes = (xArr, yArr, zArr, selected) => {
-  //declaramos las variables
+  /*declaramos las variables
+ xMovement es la variable que guarda si es positivo o negativo,
+ mainAxis guarda el eje principal del movimiento, 
+ mainMovement guarda el movimiento principal, los general guardan las variables
+ para renderizar en todos los ejes cuando se musetran los angulos, tambien una 
+ variable side para el lado derecho o izquierdo si es el caso*/
 
   let xMovement, yMovement, zMovement;
-  let mainAxis, mainMovement, axisMovement, planeMovement;
+  let mainAxis,
+    mainMovement,
+    side,
+    axisMovement,
+    planeMovement,
+    xGeneralAxis,
+    yGeneralAxis,
+    zGeneralAxis,
+    xGeneralPlane,
+    yGeneralPlane,
+    zGeneralPlane;
   /*declaramos un obj que encuentra los valores maximos y minimos de 
   los arreglos de los angulos en funcion del tiempo, que vienen por parametros
   desde la carga del csv*/
@@ -66,35 +81,58 @@ export const detectorSentidosEjes = (xArr, yArr, zArr, selected) => {
   estas variables y estableciendo el movimiento definitivo*/
 
   if (mainAxis === "x" && xMovement === 0 && selected === "cervical") {
-    mainMovement = "Flexion de la columna cervical";
+    mainMovement = "flexión";
     axisMovement = "laterolateral";
     planeMovement = "medio";
   } else if (mainAxis === "x" && xMovement === 1 && selected === "cervical") {
-    mainMovement = "Extensión de la columna cervical";
+    mainMovement = "extensión";
     axisMovement = "laterolateral";
     planeMovement = "medio";
   } else if (mainAxis === "y" && yMovement === 0 && selected === "cervical") {
-    mainMovement = "Rotación de la columna cervical a la derecha";
+    mainMovement = "rotación";
+    side = "derecha";
     axisMovement = "céfalocaudal";
     planeMovement = "transversal";
   } else if (mainAxis === "y" && yMovement === 1 && selected === "cervical") {
-    mainMovement = "Rotación de la columna cervical a la izquierda";
+    mainMovement = "rotación";
+    side = "izquierda";
     axisMovement = "céfalocaudal";
     planeMovement = "transversal";
   } else if (mainAxis === "z" && zMovement === 0 && selected === "cervical") {
-    mainMovement = "Inclinación de la columna cervical a la derecha";
+    mainMovement = "inclinación";
+    side = "derecha";
     axisMovement = "anteroposterior";
     planeMovement = "frontal";
   } else if (mainAxis === "z" && zMovement === 1 && selected === "cervical") {
-    mainMovement = "Inclinación de la columna cervical a la Izquierda";
+    mainMovement = "inclinación";
+    side = "izquierda";
     axisMovement = "anteroposterior";
     planeMovement = "frontal";
   }
 
+  /*declaramos un condicional para los planos y los ejes 
+  segun el movimiento independiente de cual es el principal*/
+
+  if (selected === "cervical" || selected === "Dorsolumbar") {
+    xGeneralAxis = "laterolateral";
+    yGeneralAxis = "cefalocaudal";
+    zGeneralAxis = "anteroposterior";
+    xGeneralPlane = "sagital";
+    yGeneralPlane = "transversal";
+    zGeneralPlane = "frontal";
+  }
+
   const detectObj = {
     mainMovement,
+    side,
     axisMovement,
     planeMovement,
+    xGeneralAxis,
+    yGeneralAxis,
+    zGeneralAxis,
+    xGeneralPlane,
+    yGeneralPlane,
+    zGeneralPlane,
   };
 
   return detectObj;
