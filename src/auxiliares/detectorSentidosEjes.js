@@ -6,8 +6,13 @@ export const detectorSentidosEjes = (xArr, yArr, zArr, selected) => {
  para renderizar en todos los ejes cuando se musetran los angulos, tambien una 
  variable side para el lado derecho o izquierdo si es el caso*/
 
-  let xMovement, yMovement, zMovement;
-  let mainAxis,
+  let xMovement,
+    yMovement,
+    zMovement,
+    xGeneralMovement,
+    yGeneralMovement,
+    zGeneralMovement,
+    mainAxis,
     mainMovement,
     mainMovementValue,
     side,
@@ -256,6 +261,7 @@ export const detectorSentidosEjes = (xArr, yArr, zArr, selected) => {
   /*---ANTEBRAZO derecho--- Dispositivo: parte anterior del
   antebrazo (o en la mano?)y sentido "y" hacia cefálico, partimos de la posicion intermedia
   con el pulgar hacia arriba */
+
   if (mainAxis === "x" && xMovement === 0 && selected === "antebrazo derecho") {
     mainMovement = "extensión";
     axisMovement = "laterolateral";
@@ -321,6 +327,285 @@ export const detectorSentidosEjes = (xArr, yArr, zArr, selected) => {
     planeMovement = "transversal";
   }
 
+  /*MANO derecha, el dispositivo en la palma de la mano, con el sentido
+  del eje "y" proximal */
+  if (mainAxis === "x" && xMovement === 0 && selected === "mano derecha") {
+    mainMovement = "flexión";
+    axisMovement = "laterolateral";
+    planeMovement = "sagital";
+
+    if (xMovement === 0) {
+      xGeneralMovement = "flexión";
+      xGeneralAxis = "laterolateral";
+      xGeneralPlane = "sagital";
+    } else {
+      xGeneralMovement = "extension";
+      xGeneralAxis = "laterolateral";
+      xGeneralPlane = "sagital";
+    }
+    if (yMovement === 0) {
+      yGeneralMovement = "rotación externa";
+      yGeneralAxis = "longitudinal";
+      yGeneralPlane = "transversal";
+    } else {
+      yGeneralMovement = "rotación interna";
+      yGeneralAxis = "longitudinal";
+      yGeneralPlane = "transversal";
+    }
+    if (zMovement === 0) {
+      zGeneralMovement = "abducción";
+      zGeneralAxis = "longitudinal";
+      zGeneralPlane = "transversal";
+    } else {
+      zGeneralMovement = "aducción";
+      zGeneralAxis = "longitudinal";
+      zGeneralPlane = "transversal";
+    }
+  } else if (
+    mainAxis === "x" &&
+    xMovement === 1 &&
+    selected === "mano derecha"
+  ) {
+    mainMovement = "extensión";
+    axisMovement = "laterolateral";
+    planeMovement = "sagital";
+    if (xMovement === 0) {
+      xGeneralMovement = "flexión";
+      xGeneralAxis = "laterolateral";
+      xGeneralPlane = "sagital";
+    } else {
+      xGeneralMovement = "extension";
+      xGeneralAxis = "laterolateral";
+      xGeneralPlane = "sagital";
+    }
+    if (yMovement === 0) {
+      yGeneralMovement = "rotación externa";
+      yGeneralAxis = "longitudinal";
+      yGeneralPlane = "transversal";
+    } else {
+      yGeneralMovement = "rotación interna";
+      yGeneralAxis = "longitudinal";
+      yGeneralPlane = "transversal";
+    }
+    if (zMovement === 0) {
+      zGeneralMovement = "abducción";
+      zGeneralAxis = "longitudinal";
+      zGeneralPlane = "transversal";
+    } else {
+      zGeneralMovement = "aducción";
+      zGeneralAxis = "longitudinal";
+      zGeneralPlane = "transversal";
+    }
+  } else if (
+    mainAxis === "z" &&
+    xMovement === 0 &&
+    selected === "mano derecha"
+  ) {
+    mainMovement = "abducción";
+    axisMovement = "anteroposterior";
+    planeMovement = "frontal";
+    if (xMovement === 0) {
+      xGeneralMovement = "flexión";
+      xGeneralAxis = "laterolateral";
+      xGeneralPlane = "sagital";
+    } else {
+      xGeneralMovement = "extension";
+      xGeneralAxis = "laterolateral";
+      xGeneralPlane = "sagital";
+    }
+    if (yMovement === 0) {
+      yGeneralMovement = "rotación externa";
+      yGeneralAxis = "longitudinal";
+      yGeneralPlane = "transversal";
+    } else {
+      yGeneralMovement = "rotación interna";
+      yGeneralAxis = "longitudinal";
+      yGeneralPlane = "transversal";
+    }
+    if (zMovement === 0) {
+      zGeneralMovement = "abducción";
+      zGeneralAxis = "longitudinal";
+      zGeneralPlane = "transversal";
+    } else {
+      zGeneralMovement = "aducción";
+      zGeneralAxis = "longitudinal";
+      zGeneralPlane = "transversal";
+    }
+  } else if (
+    mainAxis === "z" &&
+    xMovement === 1 &&
+    selected === "mano derecha"
+  ) {
+    mainMovement = "aducción";
+    axisMovement = "anteroposterior";
+    planeMovement = "frontal";
+    if (xMovement === 0) {
+      xGeneralMovement = "flexión";
+      xGeneralAxis = "laterolateral";
+      xGeneralPlane = "sagital";
+    } else {
+      xGeneralMovement = "extension";
+      xGeneralAxis = "laterolateral";
+      xGeneralPlane = "sagital";
+    }
+    if (yMovement === 0) {
+      yGeneralMovement = "rotación externa";
+      yGeneralAxis = "longitudinal";
+      yGeneralPlane = "transversal";
+    } else {
+      yGeneralMovement = "rotación interna";
+      yGeneralAxis = "longitudinal";
+      yGeneralPlane = "transversal";
+    }
+    if (zMovement === 0) {
+      zGeneralMovement = "abducción";
+      zGeneralAxis = "longitudinal";
+      zGeneralPlane = "transversal";
+    } else {
+      zGeneralMovement = "aducción";
+      zGeneralAxis = "longitudinal";
+      zGeneralPlane = "transversal";
+    }
+  }
+  /*MANO IZQUIERDA, el dispositivo en la palma de la mano, con el sentido
+  del eje "y" proximal */
+  if (mainAxis === "x" && xMovement === 0 && selected === "mano izquierda") {
+    mainMovement = "flexión";
+    axisMovement = "laterolateral";
+    planeMovement = "sagital";
+    if (xMovement === 0) {
+      xGeneralMovement = "flexión";
+      xGeneralAxis = "laterolateral";
+      xGeneralPlane = "sagital";
+    } else {
+      xGeneralMovement = "extension";
+      xGeneralAxis = "laterolateral";
+      xGeneralPlane = "sagital";
+    }
+    if (yMovement === 0) {
+      yGeneralMovement = "rotación interna";
+      yGeneralAxis = "longitudinal";
+      yGeneralPlane = "transversal";
+    } else {
+      yGeneralMovement = "rotación externa";
+      yGeneralAxis = "longitudinal";
+      yGeneralPlane = "transversal";
+    }
+    if (zMovement === 0) {
+      zGeneralMovement = "aducción";
+      zGeneralAxis = "longitudinal";
+      zGeneralPlane = "transversal";
+    } else {
+      zGeneralMovement = "abducción";
+      zGeneralAxis = "longitudinal";
+      zGeneralPlane = "transversal";
+    }
+  } else if (
+    mainAxis === "x" &&
+    xMovement === 1 &&
+    selected === "mano izquierda"
+  ) {
+    mainMovement = "extensión";
+    axisMovement = "laterolateral";
+    planeMovement = "sagital";
+    if (xMovement === 0) {
+      xGeneralMovement = "flexión";
+      xGeneralAxis = "laterolateral";
+      xGeneralPlane = "sagital";
+    } else {
+      xGeneralMovement = "extension";
+      xGeneralAxis = "laterolateral";
+      xGeneralPlane = "sagital";
+    }
+    if (yMovement === 0) {
+      yGeneralMovement = "rotación interna";
+      yGeneralAxis = "longitudinal";
+      yGeneralPlane = "transversal";
+    } else {
+      yGeneralMovement = "rotación externa";
+      yGeneralAxis = "longitudinal";
+      yGeneralPlane = "transversal";
+    }
+    if (zMovement === 0) {
+      zGeneralMovement = "aducción";
+      zGeneralAxis = "longitudinal";
+      zGeneralPlane = "transversal";
+    } else {
+      zGeneralMovement = "abducción";
+      zGeneralAxis = "longitudinal";
+      zGeneralPlane = "transversal";
+    }
+  } else if (
+    mainAxis === "z" &&
+    xMovement === 0 &&
+    selected === "mano izquierda"
+  ) {
+    mainMovement = "aducción";
+    axisMovement = "anteroposterior";
+    planeMovement = "frontal";
+    if (xMovement === 0) {
+      xGeneralMovement = "flexión";
+      xGeneralAxis = "laterolateral";
+      xGeneralPlane = "sagital";
+    } else {
+      xGeneralMovement = "extension";
+      xGeneralAxis = "laterolateral";
+      xGeneralPlane = "sagital";
+    }
+    if (yMovement === 0) {
+      yGeneralMovement = "rotación interna";
+      yGeneralAxis = "longitudinal";
+      yGeneralPlane = "transversal";
+    } else {
+      yGeneralMovement = "rotación externa";
+      yGeneralAxis = "longitudinal";
+      yGeneralPlane = "transversal";
+    }
+    if (zMovement === 0) {
+      zGeneralMovement = "aducción";
+      zGeneralAxis = "longitudinal";
+      zGeneralPlane = "transversal";
+    } else {
+      zGeneralMovement = "abducción";
+      zGeneralAxis = "longitudinal";
+      zGeneralPlane = "transversal";
+    }
+  } else if (
+    mainAxis === "z" &&
+    xMovement === 1 &&
+    selected === "mano izquierda"
+  ) {
+    mainMovement = "abducción";
+    axisMovement = "anteroposterior";
+    planeMovement = "frontal";
+    if (xMovement === 0) {
+      xGeneralMovement = "flexión";
+      xGeneralAxis = "laterolateral";
+      xGeneralPlane = "sagital";
+    } else {
+      xGeneralMovement = "extension";
+      xGeneralAxis = "laterolateral";
+      xGeneralPlane = "sagital";
+    }
+    if (yMovement === 0) {
+      yGeneralMovement = "rotación interna";
+      yGeneralAxis = "longitudinal";
+      yGeneralPlane = "transversal";
+    } else {
+      yGeneralMovement = "rotación externa";
+      yGeneralAxis = "longitudinal";
+      yGeneralPlane = "transversal";
+    }
+    if (zMovement === 0) {
+      zGeneralMovement = "aducción";
+      zGeneralAxis = "longitudinal";
+      zGeneralPlane = "transversal";
+    } else {
+      zGeneralMovement = "abducción";
+      zGeneralAxis = "longitudinal";
+      zGeneralPlane = "transversal";
+    }
+  }
   //+++++++++++++++++++++++++++++++++++++++++++++++++
   /*declaramos un condicional para los planos y los ejes 
   segun el movimiento independiente de cual es el principal*/
@@ -355,6 +640,9 @@ export const detectorSentidosEjes = (xArr, yArr, zArr, selected) => {
 
   const detectObj = {
     mainMovement,
+    xMovement,
+    yMovement,
+    zMovement,
     side,
     axisMovement,
     planeMovement,
@@ -365,7 +653,13 @@ export const detectorSentidosEjes = (xArr, yArr, zArr, selected) => {
     xGeneralPlane,
     yGeneralPlane,
     zGeneralPlane,
+    xGeneralMovement,
+    yGeneralMovement,
+    zGeneralMovement,
   };
+  console.log(xGeneralMovement);
+  console.log(yGeneralMovement);
+  console.log(zGeneralMovement);
 
   return detectObj;
 };

@@ -106,8 +106,8 @@ const CargarCsv = () => {
     { label: "Brazo izquierdo", value: "brazo izquierdo" },
     { label: "Antebrazo derecho", value: "antebrazo derecho" },
     { label: "Antebrazo izquierdo", value: "antebrazo izquierdo" },
-    { label: "Mano derecha", value: "manoD" },
-    { label: "Mano izquierda", value: "manoI" },
+    { label: "Mano derecha", value: "mano derecha" },
+    { label: "Mano izquierda", value: "mano izquierda" },
     { label: "Muslo derecho", value: "musloD" },
     { label: "Muslo izqierdo", value: "musloI" },
     { label: "Pierna derecha", value: "piernaD" },
@@ -165,18 +165,21 @@ const CargarCsv = () => {
                 <h3>
                   El angulo de referencia para este movimiento es de {ref}°
                 </h3>
-                <h4>Los ángulos segun los ejes fueron:</h4>
+                <h4>Análisis tridimensional del movimiento:</h4>
                 <p>
-                  Plano {detectObj.xGeneralPlane}, eje {detectObj.xGeneralAxis}:{" "}
-                  {Math.abs(dataAnguloGrad.xAngleGrad)}°
+                  {detectObj.xGeneralMovement} en el plano{" "}
+                  {detectObj.xGeneralPlane}, eje {detectObj.xGeneralAxis} de{" "}
+                  {dataAnguloGrad.xAngleGrad}°
                 </p>
                 <p>
-                  Plano {detectObj.yGeneralPlane}, eje {detectObj.yGeneralAxis}:{" "}
-                  {Math.abs(dataAnguloGrad.yAngleGrad)}°
+                  {detectObj.yGeneralMovement} en el plano{" "}
+                  {detectObj.yGeneralPlane}, eje {detectObj.yGeneralAxis}:{" "}
+                  {dataAnguloGrad.yAngleGrad}°
                 </p>
                 <p>
-                  Plano {detectObj.zGeneralPlane}, eje {detectObj.zGeneralAxis}:{" "}
-                  {Math.abs(dataAnguloGrad.zAngleGrad)}°
+                  {detectObj.zGeneralMovement} en el plano{" "}
+                  {detectObj.zGeneralPlane}, eje {detectObj.zGeneralAxis}:{" "}
+                  {dataAnguloGrad.zAngleGrad}°
                 </p>
               </div>
               <div>

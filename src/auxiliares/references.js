@@ -62,4 +62,25 @@ export const references = (selected, mainMovement) => {
     mainMovement === "supinación"
   )
     return 90;
+  /* mano */
+  if (
+    (selected === "mano derecha" || selected === "mano izquierda") &&
+    mainMovement === "flexión"
+  )
+    return 85;
+  if (
+    (selected === "mano derecha" || selected === "mano izquierda") &&
+    mainMovement === "extensión"
+  )
+    return 85;
+  if (
+    (selected === "mano derecha" || selected === "mano izquierda") &&
+    mainMovement === "aducción"
+  )
+    return 30;
+  if (
+    (selected === "mano derecha" || selected === "mano izquierda") &&
+    mainMovement === "abducción"
+  )
+    return 15;
 };
