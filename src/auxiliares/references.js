@@ -40,4 +40,26 @@ export const references = (selected, mainMovement) => {
     mainMovement === "rotación externa"
   )
     return 30;
+
+  /* antebrazo */
+  if (
+    (selected === "antebrazo derecho" || selected === "antebrazo izquierdo") &&
+    mainMovement === "flexión"
+  )
+    return 145;
+  if (
+    (selected === "antebrazo derecho" || selected === "antebrazo izquierdo") &&
+    mainMovement === "extensión"
+  )
+    return 145;
+  if (
+    (selected === "antebrazo derecho" || selected === "antebrazo izquierdo") &&
+    mainMovement === "pronación"
+  )
+    return 85;
+  if (
+    (selected === "antebrazo derecho" || selected === "antebrazo izquierdo") &&
+    mainMovement === "supinación"
+  )
+    return 90;
 };

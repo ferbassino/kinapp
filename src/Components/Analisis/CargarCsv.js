@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Chart from "./Chart";
 import { integral } from "../../auxiliares/Integral";
 import { arrayIntegralAngulo } from "../../auxiliares/arrayIntegralAngulo";
@@ -7,8 +7,7 @@ import { detectorSentidosEjes } from "../../auxiliares/detectorSentidosEjes";
 import { references } from "../../auxiliares/references";
 
 /*IMPORTANTE: EN LOS MIEMBROS, LA UBICACION DEL DISPOSITIVO
- ES LATERAL A LA DERECHA Y ANTERIOR A LA IZQUIERDA, 
- SIEMPRE CON EL EJE Y POSITIVO PROXIMAL*/
+ ES LATERAL SIEMPRE CON EL EJE Y POSITIVO PROXIMAL*/
 const CargarCsv = () => {
   const [archivoCsv, setArchivoCsv] = useState("");
   const [visible, setVisible] = useState(false);
@@ -103,11 +102,10 @@ const CargarCsv = () => {
     { label: "No específica", value: "noEspecifica" },
     { label: "Cervical", value: "cervical" },
     { label: "Dorsolumbar", value: "dorsolumbar" },
-
     { label: "Brazo derecho", value: "brazo derecho" },
     { label: "Brazo izquierdo", value: "brazo izquierdo" },
-    { label: "Antebrazo derecho", value: "antebrazoD" },
-    { label: "Antebrazo izquierdo", value: "antebrazoI" },
+    { label: "Antebrazo derecho", value: "antebrazo derecho" },
+    { label: "Antebrazo izquierdo", value: "antebrazo izquierdo" },
     { label: "Mano derecha", value: "manoD" },
     { label: "Mano izquierda", value: "manoI" },
     { label: "Muslo derecho", value: "musloD" },

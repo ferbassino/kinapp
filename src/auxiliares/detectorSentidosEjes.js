@@ -252,6 +252,76 @@ export const detectorSentidosEjes = (xArr, yArr, zArr, selected) => {
     axisMovement = "laterolateral";
     planeMovement = "sagital";
   }
+
+  /*---ANTEBRAZO derecho--- Dispositivo: parte anterior del
+  antebrazo (o en la mano?)y sentido "y" hacia cefálico, partimos de la posicion intermedia
+  con el pulgar hacia arriba */
+  if (mainAxis === "x" && xMovement === 0 && selected === "antebrazo derecho") {
+    mainMovement = "extensión";
+    axisMovement = "laterolateral";
+    planeMovement = "sagital";
+  } else if (
+    mainAxis === "x" &&
+    xMovement === 1 &&
+    selected === "antebrazo derecho"
+  ) {
+    mainMovement = "flexión";
+    axisMovement = "laterolateral";
+    planeMovement = "sagital";
+  } else if (
+    mainAxis === "y" &&
+    yMovement === 0 &&
+    selected === "antebrazo derecho"
+  ) {
+    mainMovement = "supinacion";
+    axisMovement = "longitudinal";
+    planeMovement = "transversal";
+  } else if (
+    mainAxis === "y" &&
+    yMovement === 1 &&
+    selected === "antebrazo derecho"
+  ) {
+    mainMovement = "pronación";
+    axisMovement = "longitudinal";
+    planeMovement = "transversal";
+  }
+  /*ANTEBRAZO IZQUIERDO */
+
+  if (
+    mainAxis === "x" &&
+    xMovement === 0 &&
+    selected === "antebrazo izquierdo"
+  ) {
+    mainMovement = "extensión";
+    axisMovement = "laterolateral";
+    planeMovement = "sagital";
+  } else if (
+    mainAxis === "x" &&
+    xMovement === 1 &&
+    selected === "antebrazo izquierdo"
+  ) {
+    mainMovement = "flexión";
+    axisMovement = "laterolateral";
+    planeMovement = "sagital";
+  } else if (
+    mainAxis === "y" &&
+    yMovement === 0 &&
+    selected === "antebrazo izquierdo"
+  ) {
+    mainMovement = "pronación";
+    axisMovement = "longitudinal";
+    planeMovement = "transversal";
+  } else if (
+    mainAxis === "y" &&
+    yMovement === 1 &&
+    selected === "antebrazo izquierdo"
+  ) {
+    mainMovement = "supinación";
+    axisMovement = "longitudinal";
+    planeMovement = "transversal";
+  }
+
+  //+++++++++++++++++++++++++++++++++++++++++++++++++
   /*declaramos un condicional para los planos y los ejes 
   segun el movimiento independiente de cual es el principal*/
 
@@ -273,8 +343,8 @@ export const detectorSentidosEjes = (xArr, yArr, zArr, selected) => {
     zGeneralPlane = "sagital";
   }
 
-  //brazo izquierdo ubicación anterior del dispositivo
-  if (selected === "brazo" && mainAxis === "x") {
+  //antebrazo ubicación anterior del dispositivo
+  if (selected === "antebrazo derecho" || selected === "antebrazo izquierdo") {
     xGeneralAxis = "laterolateral";
     yGeneralAxis = "longitudinal";
     zGeneralAxis = "anteroposterior";
