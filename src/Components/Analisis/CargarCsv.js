@@ -5,13 +5,15 @@ import { arrayIntegralAngulo } from "../../auxiliares/arrayIntegralAngulo";
 import Select from "react-select";
 import { detectorSentidosEjes } from "../../auxiliares/detectorSentidosEjes";
 import { references } from "../../auxiliares/references";
+import { noEspecifico } from "../../auxiliares/noEspecifico";
 
-/*IMPORTANTE: EN LOS MIEMBROS, LA UBICACION DEL DISPOSITIVO
- ES LATERAL SIEMPRE CON EL EJE Y POSITIVO PROXIMAL*/
 const CargarCsv = () => {
   const [archivoCsv, setArchivoCsv] = useState("");
   const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState("");
+  const [selectFileVisible, setSetelectFileVisible] = useState(false);
+  // const [sendVisible, setSendVisible] = useState(false);
+  const [noEspecificoVisible, setNoEspecificoVisible] = useState(false);
   let mainMovementValue;
   //lectura del archivo csv
   const readFile = (e) => {
@@ -33,7 +35,9 @@ const CargarCsv = () => {
   // renderizado
   const renderizado = (e) => {
     e.preventDefault(e);
-    setVisible(true);
+    selected === "noEspecifica"
+      ? setNoEspecificoVisible(true)
+      : setVisible(true);
   };
 
   //obtener un array por cada variable
@@ -96,6 +100,12 @@ const CargarCsv = () => {
     curvaAngulos.zCurva,
     selected
   );
+  const noEspecificoObj = noEspecifico(
+    curvaAngulos.xCurva,
+    curvaAngulos.yCurva,
+    curvaAngulos.zCurva
+  );
+  // console.log(noEspecificoObj);
 
   //selector
   const segments = [
@@ -108,8 +118,8 @@ const CargarCsv = () => {
     { label: "Antebrazo izquierdo", value: "antebrazo izquierdo" },
     { label: "Mano derecha", value: "mano derecha" },
     { label: "Mano izquierda", value: "mano izquierda" },
-    { label: "Muslo derecho", value: "musloD" },
-    { label: "Muslo izqierdo", value: "musloI" },
+    { label: "Muslo derecho", value: "muslo derecho" },
+    { label: "Muslo izquierdo", value: "muslo izquierdo" },
     { label: "Pierna derecha", value: "piernaD" },
     { label: "Pierna izquierda", value: "piernaI" },
     { label: "Pie derecho", value: "pieD" },
@@ -119,6 +129,7 @@ const CargarCsv = () => {
   //funcion que captura el select
   const handleSelectChange = (e) => {
     setSelected(e.value);
+    setSetelectFileVisible(true);
   };
 
   /*constante que guarda el return de la funcion con los
@@ -131,40 +142,55 @@ const CargarCsv = () => {
   return (
     <>
       <div>
-        <h3>Carga del archivo .csv</h3>
-        <div>
-          <input type="file" id="inputGroupFile01" onChange={readFile}></input>
-        </div>
-
         <br />
         {/* selector */}
         <div>
+          <h3>1. Selección</h3>
+          <p>
+            Selecciona un segmento a evaluar. Si no lo encuentras dentro de la
+            lista podrás elegir la opción "no específica" y orientarte con la
+            documentacion sobre su interpretación
+          </p>
           <Select options={segments} onChange={handleSelectChange} />
-          <p>usted seleccionó: {selected}</p>
         </div>
-        <div>
-          {/* formulario aca */}
-          <form noValidate onSubmit={(e) => renderizado(e)}>
-            {/* boton de envio */}
+
+        {selectFileVisible && (
+          <div>
+            <h3>2. Carga del archivo .csv</h3>
             <div>
-              <button type="submit">Enviar para analizar</button>
+              <input
+                type="file"
+                id="inputGroupFile01"
+                onChange={readFile}
+              ></input>
             </div>
-          </form>
-        </div>
+
+            <div>
+              {/* formulario aca */}
+              <h3>3. Enviar para analizar</h3>
+              <form noValidate onSubmit={(e) => renderizado(e)}>
+                {/* boton de envio */}
+                <div>
+                  <button type="submit">Enviar para analizar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
 
         <div>
           {visible && (
             <div>
               <div>
-                <h3>
-                  Se realizó el movimiento de {detectObj.mainMovement} de{" "}
-                  {selected} {detectObj.side}, plano {detectObj.planeMovement},{" "}
-                  eje {detectObj.axisMovement} con un ángulo de{" "}
-                  {mainMovementValue}°
-                </h3>
-                <h3>
+                <h3>Tu análisis</h3>
+                <h4>
+                  Se realizó el movimiento de {detectObj.mainMovement} , plano{" "}
+                  {detectObj.planeMovement}, eje {detectObj.axisMovement} con un
+                  ángulo de {mainMovementValue}°
+                </h4>
+                <h4>
                   El angulo de referencia para este movimiento es de {ref}°
-                </h3>
+                </h4>
                 <h4>Análisis tridimensional del movimiento:</h4>
                 <p>
                   {detectObj.xGeneralMovement} en el plano{" "}
@@ -211,6 +237,62 @@ const CargarCsv = () => {
                   xPlane={detectObj.xGeneralPlane}
                   yPlane={detectObj.yGeneralPlane}
                   zPlane={detectObj.zGeneralPlane}
+                />
+              </div>
+            </div>
+          )}
+        </div>
+        <div>
+          {noEspecificoVisible && (
+            <div>
+              <div>
+                <h3>Análisis no especifico</h3>
+                <p>
+                  el eje principal de movimiento es {noEspecificoObj.mainAxis}
+                </p>
+                <h4>
+                  Se realizó el movimiento de {noEspecificoObj.mainMovement}
+                  ,en el eje {noEspecificoObj.axisMovement} con un ángulo de{" "}
+                  {mainMovementValue}°
+                </h4>
+
+                <h4>Análisis tridimensional del movimiento:</h4>
+                <p>
+                  {noEspecificoObj.xGeneralMovement}, eje{" "}
+                  {noEspecificoObj.xGeneralAxis} de {dataAnguloGrad.xAngleGrad}°
+                </p>
+                <p>
+                  {noEspecificoObj.yGeneralMovement} eje{" "}
+                  {noEspecificoObj.yGeneralAxis}: {dataAnguloGrad.yAngleGrad}°
+                </p>
+                <p>
+                  {noEspecificoObj.zGeneralMovement} , eje{" "}
+                  {noEspecificoObj.zGeneralAxis}: {dataAnguloGrad.zAngleGrad}°
+                </p>
+              </div>
+              <div>
+                <h2>Gráfico del ángulo en función del tiempo</h2>
+                <Chart
+                  time={dataObj.time}
+                  xData={curvaAngulos.xCurva}
+                  yData={curvaAngulos.yCurva}
+                  zData={curvaAngulos.zCurva}
+                  xAxis={noEspecificoObj.xGeneralAxis}
+                  yAxis={noEspecificoObj.yGeneralAxis}
+                  zAxis={noEspecificoObj.zGeneralAxis}
+                />
+              </div>
+              <div>
+                <h2>Gráfico de la velocidad angular</h2>
+
+                <Chart
+                  time={dataObj.time}
+                  xData={dataObj.xData}
+                  yData={dataObj.yData}
+                  zData={dataObj.zData}
+                  xAxis={noEspecificoObj.xGeneralAxis}
+                  yAxis={noEspecificoObj.yGeneralAxis}
+                  zAxis={noEspecificoObj.zGeneralAxis}
                 />
               </div>
             </div>

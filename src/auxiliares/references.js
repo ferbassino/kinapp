@@ -83,4 +83,36 @@ export const references = (selected, mainMovement) => {
     mainMovement === "abducción"
   )
     return 15;
+
+  //---muslo---
+  if (
+    (selected === "muslo derecho" || selected === "muslo izquierdo") &&
+    mainMovement === "flexión"
+  )
+    return 180;
+  if (
+    (selected === "muslo derecho" || selected === "muslo izquierdo") &&
+    mainMovement === "extensión"
+  )
+    return 50;
+  if (
+    (selected === "muslo derecho" || selected === "muslo izquierdo") &&
+    mainMovement === "abducción"
+  )
+    return 180;
+  if (
+    (selected === "muslo derecho" || selected === "muslo izquierdo") &&
+    mainMovement === "abucción"
+  )
+    return 30;
+  if (
+    (selected === "muslo derecho" || selected === "muslo izquierdo") &&
+    mainMovement === "rotación interna"
+  )
+    return 80;
+  if (
+    (selected === "muslo derecho" || selected === "muslo izquierdo") &&
+    mainMovement === "rotación externa"
+  )
+    return 30;
 };
