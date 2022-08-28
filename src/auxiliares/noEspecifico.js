@@ -7,16 +7,11 @@ export const noEspecifico = (xArr, yArr, zArr) => {
     zGeneralMovement,
     mainAxis,
     mainMovement,
-    mainMovementValue,
-    side,
     axisMovement,
     planeMovement,
     xGeneralAxis,
     yGeneralAxis,
-    zGeneralAxis,
-    xGeneralPlane,
-    yGeneralPlane,
-    zGeneralPlane;
+    zGeneralAxis;
 
   /*---VALORES MAXIMOS Y MINIMOS DE CADA EJE---declaramos un obj que encuentra los valores maximos y minimos de 
   los arreglos de los angulos en funcion del tiempo, que vienen por parametros
@@ -147,7 +142,6 @@ export const noEspecifico = (xArr, yArr, zArr) => {
 
     yGeneralMovement = mainMovement;
     yGeneralAxis = axisMovement;
-    yGeneralPlane = planeMovement;
 
     if (zMovement === 0) {
       zGeneralMovement = "rotación horaria";
@@ -170,7 +164,6 @@ export const noEspecifico = (xArr, yArr, zArr) => {
 
     yGeneralMovement = mainMovement;
     yGeneralAxis = axisMovement;
-    yGeneralPlane = planeMovement;
 
     if (zMovement === 0) {
       zGeneralMovement = "rotación horaria";
@@ -200,7 +193,6 @@ export const noEspecifico = (xArr, yArr, zArr) => {
 
     zGeneralMovement = mainMovement;
     zGeneralAxis = axisMovement;
-    zGeneralPlane = planeMovement;
   } else if (mainAxis === "z" && zMovement === 1) {
     mainMovement = "rotación antihoraria";
     axisMovement = "anteroposterior";
@@ -222,7 +214,6 @@ export const noEspecifico = (xArr, yArr, zArr) => {
 
     zGeneralMovement = mainMovement;
     zGeneralAxis = axisMovement;
-    zGeneralPlane = planeMovement;
   }
 
   const noEspecificoObj = {

@@ -45,7 +45,7 @@ const Chart = (props) => {
     return {
       datasets: [
         {
-          label: `Plano: ${props.xPlane}, Eje: ${props.xAxis}`,
+          label: `Plano: ${props.xPlane}, Eje: ${props.xAxis}, movimiento de cabeceo`,
           tension: 0.3,
           data: props.xData,
           borderColor: "blue",
@@ -53,7 +53,7 @@ const Chart = (props) => {
           pointRadius: 1,
         },
         {
-          label: `Plano: ${props.yPlane}, Eje: ${props.yAxis}`,
+          label: `Plano: ${props.yPlane}, Eje: ${props.yAxis}, movimiento de rolido`,
           tension: 0.3,
           data: props.yData,
           borderColor: "red",
@@ -61,7 +61,7 @@ const Chart = (props) => {
           pointRadius: 1,
         },
         {
-          label: `Plano: ${props.zPlane}, Eje: ${props.zAxis}`,
+          label: `Plano: ${props.zPlane}, Eje: ${props.zAxis}, movimiento de guiñada`,
           tension: 0.3,
           data: props.zData,
           borderColor: "green",

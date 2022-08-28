@@ -248,11 +248,11 @@ const CargarCsv = () => {
               <div>
                 <h3>Análisis no especifico</h3>
                 <p>
-                  el eje principal de movimiento es {noEspecificoObj.mainAxis}
+                  El eje principal de movimiento es "{noEspecificoObj.mainAxis}"
                 </p>
                 <h4>
-                  Se realizó el movimiento de {noEspecificoObj.mainMovement}
-                  ,en el eje {noEspecificoObj.axisMovement} con un ángulo de{" "}
+                  Se realizó el movimiento de {noEspecificoObj.mainMovement}, en
+                  el eje "{noEspecificoObj.axisMovement}" con un ángulo de{" "}
                   {mainMovementValue}°
                 </h4>
 
@@ -280,6 +280,9 @@ const CargarCsv = () => {
                   xAxis={noEspecificoObj.xGeneralAxis}
                   yAxis={noEspecificoObj.yGeneralAxis}
                   zAxis={noEspecificoObj.zGeneralAxis}
+                  xPlane={"longitudinal al dispositivo"}
+                  yPlane={"transversal al dispositivo"}
+                  zPlane={"paralelo al dispositivo"}
                 />
               </div>
               <div>
@@ -293,6 +296,9 @@ const CargarCsv = () => {
                   xAxis={noEspecificoObj.xGeneralAxis}
                   yAxis={noEspecificoObj.yGeneralAxis}
                   zAxis={noEspecificoObj.zGeneralAxis}
+                  xPlane={"logngitudinal al dispositivo"}
+                  yPlane={"transversal al dispositivo"}
+                  zPlane={"paralelo al dispositivo"}
                 />
               </div>
             </div>
