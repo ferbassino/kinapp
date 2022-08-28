@@ -129,7 +129,6 @@ export const noEspecifico = (xArr, yArr, zArr) => {
     }
   } else if (mainAxis === "y" && yMovement === 0) {
     mainMovement = "rotación a la izquierda";
-
     axisMovement = "y";
 
     if (xMovement === 0) {
@@ -196,7 +195,7 @@ export const noEspecifico = (xArr, yArr, zArr) => {
   } else if (mainAxis === "z" && zMovement === 1) {
     mainMovement = "rotación antihoraria";
     axisMovement = "anteroposterior";
-    planeMovement = "frontal";
+
     if (xMovement === 0) {
       xGeneralMovement = "rotación hacia atrás";
       xGeneralAxis = "x";
