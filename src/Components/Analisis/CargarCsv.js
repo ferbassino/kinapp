@@ -7,15 +7,20 @@ import { detectorSentidosEjes } from "../../auxiliares/detectorSentidosEjes";
 import { references } from "../../auxiliares/references";
 import { noEspecifico } from "../../auxiliares/noEspecifico";
 
+import RenderMuscles from "./RenderMuscles";
+
 const CargarCsv = () => {
   const [archivoCsv, setArchivoCsv] = useState("");
   const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState("");
   const [selectFileVisible, setSetelectFileVisible] = useState(false);
-  // const [sendVisible, setSendVisible] = useState(false);
+
   const [noEspecificoVisible, setNoEspecificoVisible] = useState(false);
+  const [email, setEmail] = useState("");
+  const [userObj, setUserObj] = useState("");
   let mainMovementValue;
   //lectura del archivo csv
+
   const readFile = (e) => {
     let file = e.target.files[0];
     let reader = new FileReader();
@@ -24,6 +29,7 @@ const CargarCsv = () => {
       setArchivoCsv(reader.result);
     };
   };
+
   //proceso para obtener las filas con cada variable
   const data = archivoCsv
     .split("\n")
@@ -38,7 +44,16 @@ const CargarCsv = () => {
     selected === "noEspecifica"
       ? setNoEspecificoVisible(true)
       : setVisible(true);
+
+    setUserObj({
+      email,
+      archivoCsv,
+      selected,
+      mainMovement: detectObj.mainMovement,
+      date: new Date().toISOString(),
+    });
   };
+  console.log(userObj);
 
   //obtener un array por cada variable
   const dataObj = {
@@ -126,6 +141,11 @@ const CargarCsv = () => {
     { label: "Pie izquierdo", value: "pieI" },
   ];
 
+  const handleEmail = (e) => {
+    const email = e.target.value;
+    setEmail(email);
+  };
+
   //funcion que captura el select
   const handleSelectChange = (e) => {
     setSelected(e.value);
@@ -145,7 +165,12 @@ const CargarCsv = () => {
         <br />
         {/* selector */}
         <div>
-          <h3>1. Selección</h3>
+          <h3>1. Ingresa tu correo</h3>
+          <form>
+            <input type={"email"} onChange={handleEmail} value={email} />
+          </form>
+
+          <h3>2. Selección</h3>
           <p>
             Selecciona un segmento a evaluar. Si no lo encuentras dentro de la
             lista podrás elegir la opción "no específica" y orientarte con la
@@ -156,7 +181,7 @@ const CargarCsv = () => {
 
         {selectFileVisible && (
           <div>
-            <h3>2. Carga del archivo .csv</h3>
+            <h3>3. Carga del archivo .csv</h3>
             <div>
               <input
                 type="file"
@@ -167,7 +192,7 @@ const CargarCsv = () => {
 
             <div>
               {/* formulario aca */}
-              <h3>3. Enviar para analizar</h3>
+              <h3>4. Enviar para analizar</h3>
               <form noValidate onSubmit={(e) => renderizado(e)}>
                 {/* boton de envio */}
                 <div>
@@ -182,7 +207,7 @@ const CargarCsv = () => {
           {visible && (
             <div>
               <div>
-                <h3>Tu análisis</h3>
+                <h3>Análisis de {userObj.email}</h3>
                 <h4>
                   Se realizó el movimiento de {detectObj.mainMovement} , plano{" "}
                   {detectObj.planeMovement}, eje {detectObj.axisMovement} con un
@@ -207,6 +232,15 @@ const CargarCsv = () => {
                   {detectObj.zGeneralPlane}, eje {detectObj.zGeneralAxis}:{" "}
                   {dataAnguloGrad.zAngleGrad}°
                 </p>
+                <br />
+                <h3>
+                  Músculos que participan de la {detectObj.mainMovement}{" "}
+                  {selected}
+                </h3>
+                <RenderMuscles
+                  selected={selected}
+                  movement={detectObj.mainMovement}
+                />
               </div>
               <div>
                 <h2>Gráfico del ángulo en función del tiempo</h2>
